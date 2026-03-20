@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     stock: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.DECIMAL(10, 2),
       allowNull: false
     },
     id_categoria: {
@@ -38,5 +38,15 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'tbb_producto',
   });
+
+  tbb_producto.associate = function (models) {
+    // Relación con tbb_categoria
+    tbb_producto.belongsTo(models.tbc_categoria,
+      {
+        as: 'tbc_categoria',
+        foreignKey: 'id_categoria',
+      }
+    );
+  };
   return tbb_producto;
 };
