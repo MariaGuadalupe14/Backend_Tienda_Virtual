@@ -22,3 +22,10 @@ const server = http.createServer(app);
 server.listen(port);
 module.exports = app;
 
+/**PORT=8000
+DB_HOST=localhost
+DB_PORT=3306
+DB_USER=root
+DB_PASSWORD=1234
+DB_NAME=db_tienda_virtual
+*/

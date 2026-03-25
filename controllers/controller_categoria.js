@@ -24,4 +24,24 @@ module.exports = {
         .then(categoria => res.status(200).send(categoria))
         .catch(error => res.status(400).send(error))
     },
+    update (req, res) {
+        return categoria.update({
+            nombre: req.params.nombreNuevo
+        }, {
+            where: {
+                nombre: req.params.nombre,
+            }
+        })
+        .then(categoria => res.status(200).send(categoria))
+        .catch(error => res.status(400).send(error))
+    },
+    delete (req, res) {
+        return categoria.destroy({
+            where: {
+                nombre: req.params.nombre,
+            }
+        })
+        .then(categoria => res.status(200).send(categoria))
+        .catch(error => res.status(400).send(error))
+    },
 };
