@@ -15,7 +15,9 @@ app.get('/', (req, res) => res.status(200).send({
     message: 'Bienvenido a la API de la tienda virtual'
 }));
 
-const port = parseInt(process.env.PORT, 10) || 8000;
+require('./routes/route_categorias')(app);
+
+const port = parseInt(process.env.PORT, 10) || 3000;
 app.set('port', port);
 
 const server = http.createServer(app);

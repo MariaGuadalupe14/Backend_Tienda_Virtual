@@ -21,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'tbc_categoria',
+    tableName: 'tbc_categorias',
   });
 
   return tbc_categoria;

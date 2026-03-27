@@ -1,47 +1,50 @@
-const Sequelize = require('sequelize');
-const categoria = require('../models/tbc_categoria');
+const db = require('../models');
+const categoria = db.tbc_categoria;
 
 module.exports = {
-    create (req, res) {
+    create(req, res) {
         return categoria
-        .create({
-            nombre: req.params.nombre
-        })
-        .then(categoria => res.status(200).send(categoria))
-        .catch(error => res.status(400).send(error))
+            .create({
+                nombre: req.body.nombre
+            })
+            .then(categoria => res.status(200).send(categoria))
+            .catch(error => res.status(400).send(error))
     },
-    list (_, res) {
+    list(_, res) {
         return categoria.findAll({})
-        .then(categoria => res.status(200).send(categoria))
-        .catch(error => res.status(400).send(error))
+            .then(categoria => res.status(200).send(categoria))
+            .catch(error => res.status(400).send(error))
     },
-    find (req, res) {
+    find(req, res) {
         return categoria.findAll({
             where: {
                 nombre: req.params.nombre,
             }
         })
-        .then(categoria => res.status(200).send(categoria))
-        .catch(error => res.status(400).send(error))
+            .then(categoria => res.status(200).send(categoria))
+            .catch(error => res.status(400).send(error))
     },
-    update (req, res) {
-        return categoria.update({
-            nombre: req.params.nombreNuevo
-        }, {
-            where: {
-                nombre: req.params.nombre,
-            }
-        })
-        .then(categoria => res.status(200).send(categoria))
-        .catch(error => res.status(400).send(error))
-    },
-    delete (req, res) {
+    delete(req, res) {
         return categoria.destroy({
             where: {
-                nombre: req.params.nombre,
+                id: req.params.id,
             }
         })
-        .then(categoria => res.status(200).send(categoria))
-        .catch(error => res.status(400).send(error))
+            .then(() => res.status(200).send({ mensaje: "Datos eliminados" + " correctamente" }))
+            .catch(error => res.status(400).send(error))
     },
+    update(req, res) {
+        return categoria.update(
+            {
+                nombre: req.body.nombre
+            },
+            {
+                where: {
+                    id: req.params.id,
+                }
+            }
+        )
+            .then(() => res.status(200).send({ mensaje: "Datos actualizados correctamente" }))
+            .catch(error => res.status(400).send(error))
+    }
 };
