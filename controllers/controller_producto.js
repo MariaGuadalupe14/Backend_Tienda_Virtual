@@ -1,55 +1,58 @@
-const Sequelize = require('sequelize');
-const producto = require('../models/tbb_producto');
+const db = require('../models');
+const producto = db.tbb_producto;
 
 module.exports = {
-    create (req, res) {
+    create(req, res) {
         return producto
-        .create({
-            nombre: req.params.nombre,
-            descripcion: req.params.descripcion,
-            precio: req.params.precio,
-            stock: req.params.stock,
-            id_categoria: req.params.id_categoria
-        })
-        .then(producto => res.status(200).send(producto))
-        .catch(error => res.status(400).send(error))
+            .create({
+                nombre: req.body.nombre,
+                descripcion: req.body.descripcion,
+                precio: req.body.precio,
+                stock: req.body.stock,
+                id_categoria: req.body.id_categoria
+            })
+            .then(producto => res.status(200).send(producto))
+            .catch(error => res.status(400).send(error))
     },
-    list (_, res) {
+    list(_, res) {
         return producto.findAll({})
-        .then(producto => res.status(200).send(producto))
-        .catch(error => res.status(400).send(error))
+            .then(producto => res.status(200).send(producto))
+            .catch(error => res.status(400).send(error))
     },
-    find (req, res) {
+    find(req, res) {
         return producto.findAll({
             where: {
-                nombre: req.params.nombre,
+                id: req.params.id,
             }
         })
-        .then(producto => res.status(200).send(producto))
-        .catch(error => res.status(400).send(error))
+            .then(producto => res.status(200).send(producto))
+            .catch(error => res.status(400).send(error))
     },
-    update (req, res) {
-        return producto.update({
-            nombre: req.params.nombreNuevo,
-            descripcion: req.params.descripcion,
-            precio: req.params.precio,
-            stock: req.params.stock,
-            id_categoria: req.params.id_categoria
-        }, {
-            where: {
-                nombre: req.params.nombre,
+    update(req, res) {
+        return producto.update(
+            {
+                nombre: req.body.nombre,
+                descripcion: req.body.descripcion,
+                precio: req.body.precio,
+                stock: req.body.stock,
+                id_categoria: req.body.id_categoria
+            },
+            {
+                where: {
+                    id: req.params.id,
+                }
             }
-        })
-        .then(producto => res.status(200).send(producto))
-        .catch(error => res.status(400).send(error))
+        )
+            .then(() => res.status(200).send({ mensaje: "Datos actualizados correctamente" }))
+            .catch(error => res.status(400).send(error))
     },
-    delete (req, res) {
+    delete(req, res) {
         return producto.destroy({
             where: {
-                nombre: req.params.nombre,
+                id: req.params.id,
             }
         })
-        .then(producto => res.status(200).send(producto))
-        .catch(error => res.status(400).send(error))
+            .then(() => res.status(200).send({ mensaje: "Datos eliminados correctamente" }))
+            .catch(error => res.status(400).send(error))
     },
 };

@@ -46,6 +46,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'tbc_usuario',
+    tableName: 'tbc_usuarios',
   });
   return tbc_usuario;
 };

@@ -1,53 +1,56 @@
-const Sequelize = require('sequelize');
-const carrito = require('../models/tbb_carrito');
+const db = require('../models');
+const carrito = db.tbb_carrito;
 
 module.exports = {
-    create (req, res) {
+    create(req, res) {
         return carrito
-        .create({
-            id_usuario: req.params.id_usuario,
-            total: req.params.total,
-            estado: req.params.estado,
-            fecha_creacion: req.params.fecha_creacion
-        })
-        .then(carrito => res.status(200).send(carrito))
-        .catch(error => res.status(400).send(error))
+            .create({
+                id_usuario: req.body.id_usuario,
+                total: req.body.total,
+                estado: req.body.estado,
+                fecha_creacion: req.body.fecha_creacion
+            })
+            .then(carrito => res.status(200).send(carrito))
+            .catch(error => res.status(400).send(error))
     },
-    list (_, res) {
+    list(_, res) {
         return carrito.findAll({})
-        .then(carrito => res.status(200).send(carrito))
-        .catch(error => res.status(400).send(error))
+            .then(carrito => res.status(200).send(carrito))
+            .catch(error => res.status(400).send(error))
     },
-    find (req, res) {
+    find(req, res) {
         return carrito.findAll({
             where: {
                 id: req.params.id,
             }
         })
-        .then(carrito => res.status(200).send(carrito))
-        .catch(error => res.status(400).send(error))
+            .then(carrito => res.status(200).send(carrito))
+            .catch(error => res.status(400).send(error))
     },
-    update (req, res) {
-        return carrito.update({
-            id_usuario: req.params.id_usuario,
-            total: req.params.total,
-            estado: req.params.estado,
-            fecha_creacion: req.params.fecha_creacion
-        }, {
-            where: {
-                id: req.params.id,
+    update(req, res) {
+        return carrito.update(
+            {
+                id_usuario: req.body.id_usuario,
+                total: req.body.total,
+                estado: req.body.estado,
+                fecha_creacion: req.body.fecha_creacion
+            },
+            {
+                where: {
+                    id: req.params.id,
+                }
             }
-        })
-        .then(carrito => res.status(200).send(carrito))
-        .catch(error => res.status(400).send(error))
+        )
+            .then(() => res.status(200).send({ mensaje: "Datos actualizados correctamente" }))
+            .catch(error => res.status(400).send(error))
     },
-    delete (req, res) {
+    delete(req, res) {
         return carrito.destroy({
             where: {
                 id: req.params.id,
             }
         })
-        .then(carrito => res.status(200).send(carrito))
-        .catch(error => res.status(400).send(error))
+            .then(() => res.status(200).send({ mensaje: "Datos eliminados correctamente" }))
+            .catch(error => res.status(400).send(error))
     },
 };

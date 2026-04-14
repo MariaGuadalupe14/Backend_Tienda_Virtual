@@ -1,59 +1,62 @@
-const Sequelize = require('sequelize');
-const usuario = require('../models/tbc_usuario');
+const db = require('../models');
+const usuario = db.tbc_usuario;
 
 module.exports = {
-    create (req, res) {
+    create(req, res) {
         return usuario
-        .create({
-            nombre: req.params.nombre,
-            direccion: req.params.direccion,
-            telefono: req.params.telefono,
-            email: req.params.email,
-            password: req.params.password,
-            rol: req.params.rol,
-            fecha_registro: req.params.fecha_registro
-        })
-        .then(usuario => res.status(200).send(usuario))
-        .catch(error => res.status(400).send(error))
+            .create({
+                nombre: req.body.nombre,
+                direccion: req.body.direccion,
+                telefono: req.body.telefono,
+                email: req.body.email,
+                password: req.body.password,
+                rol: req.body.rol,
+                fecha_registro: req.body.fecha_registro
+            })
+            .then(usuario => res.status(200).send(usuario))
+            .catch(error => res.status(400).send(error))
     },
-    list (_, res) {
+    list(_, res) {
         return usuario.findAll({})
-        .then(usuario => res.status(200).send(usuario))
-        .catch(error => res.status(400).send(error))
+            .then(usuario => res.status(200).send(usuario))
+            .catch(error => res.status(400).send(error))
     },
-    find (req, res) {
+    find(req, res) {
         return usuario.findAll({
             where: {
-                nombre: req.params.nombre,
+                id: req.params.id,
             }
         })
-        .then(usuario => res.status(200).send(usuario))
-        .catch(error => res.status(400).send(error))
+            .then(usuario => res.status(200).send(usuario))
+            .catch(error => res.status(400).send(error))
     },
-    update (req, res) {
-        return usuario.update({
-            nombre: req.params.nombreNuevo,
-            direccion: req.params.direccion,
-            telefono: req.params.telefono,
-            email: req.params.email,
-            password: req.params.password,
-            rol: req.params.rol,
-            fecha_registro: req.params.fecha_registro
-        }, {
-            where: {
-                nombre: req.params.nombre,
+    update(req, res) {
+        return usuario.update(
+            {
+                nombre: req.body.nombre,
+                direccion: req.body.direccion,
+                telefono: req.body.telefono,
+                email: req.body.email,
+                password: req.body.password,
+                rol: req.body.rol,
+                fecha_registro: req.body.fecha_registro
+            },
+            {
+                where: {
+                    id: req.params.id,
+                }
             }
-        })
-        .then(usuario => res.status(200).send(usuario))
-        .catch(error => res.status(400).send(error))
+        )
+            .then(() => res.status(200).send({ mensaje: "Datos actualizados correctamente" }))
+            .catch(error => res.status(400).send(error))
     },
-    delete (req, res) {
+    delete(req, res) {
         return usuario.destroy({
             where: {
-                nombre: req.params.nombre,
+                id: req.params.id,
             }
         })
-        .then(usuario => res.status(200).send(usuario))
-        .catch(error => res.status(400).send(error))
+            .then(() => res.status(200).send({ mensaje: "Datos eliminados correctamente" }))
+            .catch(error => res.status(400).send(error))
     },
 };
