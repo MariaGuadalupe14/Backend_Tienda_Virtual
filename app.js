@@ -2,11 +2,19 @@ const express = require('express');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
 require('dotenv').config();
+const cors = require('cors');
 
 const http = require('http');
-const { parse } = require('path');
+
 const app = express();
 
+app.use(cors({
+    origin: 'http://localhost:5173',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true
+}));
+
+app.use(express.json());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
