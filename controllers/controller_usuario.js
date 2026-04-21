@@ -10,7 +10,7 @@ module.exports = {
                 telefono: req.body.telefono,
                 email: req.body.email,
                 password: req.body.password,
-                rol: req.body.rol,
+                rol: req.body.rol || 'cliente',
                 fecha_registro: req.body.fecha_registro
             })
             .then(usuario => res.status(200).send(usuario))
